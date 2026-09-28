@@ -1,0 +1,64 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { importProject, projects } from '../src/model.js';
+import { recommendCreators, prepareMatching, mergeRecommendations, toggleSelection, addManualCreator, allBriefsSelected, parseManualCreator } from '../src/creatorModel.js';
+
+const campaign = () => ({ ...importProject(projects[1]), platform: ['TikTok', 'YouTube'] });
+test('recommendations inherit all campaign platforms and rank by brief relevance, not followers', () => {
+  const c = campaign();
+  const candidates = recommendCreators(c, c.briefs[0]);
+  assert.deepEqual([...new Set(candidates.map(v => v.platform))].sort(), ['TikTok', 'YouTube']);
+  assert.equal(candidates.length, 16);
+  assert.equal(new Set(candidates.map(v => v.id)).size, 16);
+  assert.ok(candidates.every((v, i) => i === 0 || candidates[i - 1].briefMatch >= v.briefMatch));
+  assert.ok(candidates[0].followers < Math.max(...candidates.map(v => v.followers)));
+  assert.ok(candidates.some(v => v.creatorType === 'KOC' && v.tier === 'Mid-tier'));
+  assert.ok(candidates.every(v => v.reason.includes(c.product) && v.reason.includes(c.market)));
+});
+test('brief selections remain independent, support overlap and have no limit', () => {
+  const c = campaign(), state = prepareMatching(c);
+  const first = c.briefs[0], second = c.briefs[1];
+  state[first.id] = mergeRecommendations(state[first.id], recommendCreators(c, first));
+  state[second.id] = mergeRecommendations(state[second.id], recommendCreators(c, second));
+  const creator = state[first.id].candidateCreators[0];
+  state[first.id] = toggleSelection(state[first.id], creator.id);
+  assert.deepEqual(state[second.id].selectedCreatorIds, []);
+  state[second.id] = toggleSelection(state[second.id], creator.id);
+  assert.ok(state[second.id].selectedCreatorIds.includes(creator.id));
+  for (const item of state[first.id].candidateCreators) if (!state[first.id].selectedCreatorIds.includes(item.id)) state[first.id] = toggleSelection(state[first.id], item.id);
+  assert.equal(state[first.id].selectedCreatorIds.length, 16);
+  assert.equal(allBriefsSelected(c, state), false);
+  const completed = { ...state[second.id], completed: true };
+  assert.equal(toggleSelection(completed, creator.id).completed, false);
+});
+test('campaign edits invalidate recommendations, prune removed platforms and preserve valid selections', () => {
+  const c = campaign(), first = c.briefs[0];
+  const state = prepareMatching(c);
+  state[first.id] = mergeRecommendations(state[first.id], recommendCreators(c, first));
+  const yt = state[first.id].candidateCreators.find(v => v.platform === 'YouTube');
+  const tt = state[first.id].candidateCreators.find(v => v.platform === 'TikTok');
+  state[first.id] = toggleSelection(toggleSelection(state[first.id], yt.id), tt.id);
+  state[first.id].completed = true;
+  assert.equal(prepareMatching(c, state)[first.id], state[first.id]);
+  const next = prepareMatching({ ...c, platform: ['TikTok'], briefs: [first] }, state);
+  assert.deepEqual(Object.keys(next), [first.id]);
+  assert.deepEqual(next[first.id].selectedCreatorIds, [tt.id]);
+  assert.equal(next[first.id].recommended, false);
+  assert.equal(next[first.id].completed, false);
+});
+test('manual profiles validate links, reject other campaign platforms and deduplicate additions', () => {
+  const c = campaign(), brief = c.briefs[0];
+  const parse = (url, username = '') => parseManualCreator({ url, username, activePlatform: 'TikTok', campaign: c, brief });
+  assert.ok(parse('javascript:alert(1)').error);
+  assert.ok(parse('https://www.instagram.com/demo/').error);
+  assert.ok(parse('https://www.tiktok.com/@test/video/123').error);
+  assert.ok(parse('https://www.tiktok.com/@test', 'different').error);
+  const creator = parse('https://www.youtube.com/@demo').creator;
+  assert.equal(creator.platform, 'YouTube');
+  assert.equal(creator.username, '@demo');
+  assert.equal(parse('', '@demo').creator.platform, 'TikTok');
+  let entry = prepareMatching(c)[brief.id];
+  entry = addManualCreator(addManualCreator(entry, creator), creator);
+  assert.equal(entry.candidateCreators.length, 1);
+  assert.equal(entry.selectedCreatorIds.length, 1);
+});
