@@ -105,7 +105,7 @@ export default function SimulationSetup({ data, setData, onConfirm }) {
 
       {stage === 'review' && <>
         <div className="review-body">
-          <div className="review-heading"><div><span className="review-eyebrow"><Icon name="check" size={15}/>模拟解析完成</span><h2 ref={headingRef} tabIndex={-1}>确认你的营销内容</h2></div><Button variant="text-button" onClick={() => { setError(''); setStage('entry'); }}>重新导入</Button></div>
+          <div className="review-heading"><div><span className="review-eyebrow"><Icon name="check" size={15}/>模拟解析完成</span><h2 ref={headingRef} tabIndex={-1}>确认你的营销内容</h2></div><Button className="reimport-button" onClick={() => { setError(''); setStage('entry'); }}><Icon name="back" size={15}/>重新导入</Button></div>
           <p className="review-description">{source.kind === 'file' ? '以下为预设示例，并非对文件的真实解析。' : source.kind === 'text' ? '基础信息由简单规则提取，Brief 为模拟建议，请核对。' : '已从 Hub 示例项目整理内容，请核对。'}点击任意内容即可修改。</p>
           <span className="result-source"><Icon name={source.kind === 'file' ? 'file' : source.kind === 'hub' ? 'hub' : 'spark'} size={15}/>{source.name}</span>
           <div className="result-facts">
