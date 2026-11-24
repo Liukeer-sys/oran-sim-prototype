@@ -13,7 +13,9 @@ test('recommendations inherit all campaign platforms and rank by brief relevance
   assert.ok(candidates.every((v, i) => i === 0 || candidates[i - 1].briefMatch >= v.briefMatch));
   assert.ok(candidates[0].followers < Math.max(...candidates.map(v => v.followers)));
   assert.ok(candidates.some(v => v.creatorType === 'KOC' && v.tier === 'Mid-tier'));
-  assert.ok(candidates.every(v => v.reason.includes(c.product) && v.reason.includes(c.market)));
+  assert.ok(candidates.every(v => v.reason.includes(c.product) && v.reason.includes(c.briefs[0].title)));
+  assert.deepEqual([...new Set(candidates.map(v => v.tier))].sort(), ['Macro', 'Mega', 'Micro', 'Mid-tier', 'Nano'].sort());
+  assert.ok(candidates.some(v => v.creatorType === 'KOS'));
 });
 test('brief selections remain independent, support overlap and have no limit', () => {
   const c = campaign(), state = prepareMatching(c);

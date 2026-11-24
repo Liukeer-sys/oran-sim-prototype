@@ -1,131 +1,131 @@
 .simulation-workbench { padding-top: 24px; }
-.simulation-nav .brief-nav-heading h2 { font-size: 16px; }
+.simulation-nav .brief-nav-heading h2 { font-size: var(--text-heading); }
 .sim-campaign-context-nav { margin: 0 0 22px; }
-.sim-nav-section-label { font-size: 11px; color: #999; margin: 0 0 15px; }
+.sim-nav-section-label { font-size: var(--text-secondary); color: #999; margin: 0 0 15px; }
 .sim-campaign-analysis-nav { padding-top: 23px; margin-top: 23px; border-top: 1px solid #eee; }
-.sim-campaign-analysis-nav > p { font-size: 10px; color: #aaa; line-height: 1.8; }
+.sim-campaign-analysis-nav > p { font-size: var(--text-caption); color: #aaa; line-height: 1.8; }
 .simulation-case-list { margin-top: 16px; display: grid; gap: 10px; }
 .simulation-case-row { border-top: 1px solid #ececec; padding-top: 10px; }
-.simulation-case-select { width: 100%; display: flex; align-items: center; gap: 7px; padding: 5px 0; border: 0; background: transparent; text-align: left; color: #888; font-size: 10px; }
+.simulation-case-select { width: 100%; display: flex; align-items: center; gap: 7px; padding: 5px 0; border: 0; background: transparent; text-align: left; color: #888; font-size: var(--text-caption); }
 .simulation-case-select > span:nth-of-type(2) { min-width: 0; overflow-wrap: anywhere; flex: 1; }
-.simulation-case-select small { display: block; font-size: 9px; color: #aaa; margin-top: 3px; }
+.simulation-case-select small { display: block; font-size: var(--text-caption); color: #aaa; margin-top: 3px; }
 .simulation-case-select img { border-radius: 50%; flex-shrink: 0; }
 .simulation-case-row.focused > .simulation-case-select { color: #222; }
 .simulation-module-nav { display: grid; gap: 4px; margin: 11px 0 2px 12px; padding-left: 13px; border-left: 1px solid #e9e9e9; }
-.simulation-module-nav button { display: flex; align-items: center; gap: 7px; border: 0; background: transparent; text-align: left; padding: 8px 0; color: #555; font-size: 10px; line-height: 1.6; }
+.simulation-module-nav button { display: flex; align-items: center; gap: 7px; border: 0; background: transparent; text-align: left; padding: 8px 0; color: #555; font-size: var(--text-caption); line-height: 1.6; }
 .simulation-module-nav button.generating { color: var(--matching-accent); }
 .simulation-module-nav button.viewing { font-weight: 500; }
 .simulation-module-nav button:hover { text-decoration: underline; text-underline-offset: 4px; }
 .sim-live-dot { display: inline-block; width: 6px; height: 6px; flex: 0 0 6px; border-radius: 50%; background: var(--matching-accent); animation: sim-pulse 1.4s ease-in-out infinite; }
 @keyframes sim-pulse { 50% { opacity: .35; box-shadow: 0 0 0 3px #ef8a4712; } }
-.sim-run-status { display: flex; justify-content: space-between; align-items: center; gap: 15px; color: #666; font-size: 12px; min-height: 32px; }
+.sim-run-status { display: flex; justify-content: space-between; align-items: center; gap: 15px; color: #666; font-size: var(--text-secondary); min-height: 32px; }
 .sim-run-status > span { display: flex; align-items: center; gap: 9px; }
-.sim-run-status .button { color: #999; font-size: 10px; }
-.sim-data-note { font-size: 10px; color: #aaa; line-height: 1.8; margin: 8px 0 24px; }
+.sim-run-status .button { color: #999; font-size: var(--text-caption); }
+.sim-data-note { font-size: var(--text-caption); color: #aaa; line-height: 1.8; margin: 8px 0 24px; }
 .simulation-module { border: 1px solid var(--border); border-radius: 15px; padding: 23px 25px; margin-bottom: 23px; background: #fff; box-shadow: 0 2px 8px #00000002; scroll-margin-top: 90px; }
 .simulation-module:focus { outline: none; }
 .simulation-module:focus-visible { outline: 1px solid #ddd; outline-offset: 3px; }
 .sim-module-heading { display: flex; gap: 10px; align-items: center; margin-bottom: 22px; }
-.sim-module-number { color: #bbb; font-size: 11px; }
-.sim-module-heading h2 { font-size: 16px; font-weight: 500; margin: 0; line-height: 1.6; }
-.sim-module-status { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 9px; color: #aaa; white-space: nowrap; }
+.sim-module-number { color: #bbb; font-size: var(--text-secondary); }
+.sim-module-heading h2 { font-size: var(--text-heading); font-weight: 500; margin: 0; line-height: 1.6; }
+.sim-module-status { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: var(--text-caption); color: #aaa; white-space: nowrap; }
 .sim-module-status.generating { color: var(--matching-accent); }
 .sim-skeleton { padding: 12px 0 24px; }
-.sim-skeleton p { font-size: 12px; color: #999; margin: 0 0 23px; }
+.sim-skeleton p { font-size: var(--text-secondary); color: #999; margin: 0 0 23px; }
 .sim-skeleton > span { display: block; height: 14px; border-radius: 5px; background: linear-gradient(90deg, #f6f6f6, #fcfcfc, #f6f6f6); background-size: 200% 100%; margin: 13px 0; animation: sim-shimmer 1.8s linear infinite; }
 .sim-skeleton > span:nth-child(3) { width: 82%; }
 .sim-skeleton > span:nth-child(4) { width: 62%; }
 @keyframes sim-shimmer { to { background-position: -200% 0; } }
 .sim-context-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-.sim-context-tags > span { font-size: 10px; padding: 5px 8px; border-radius: 5px; background: #f6f6f6; color: #888; }
+.sim-context-tags > span { font-size: var(--text-caption); padding: 5px 8px; border-radius: 5px; background: #f6f6f6; color: #888; }
 .sim-context-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 25px; }
-.sim-context-grid small, .sim-audience-insights small, .sim-diagnosis-grid small { display: block; color: #999; font-size: 11px; }
-.sim-context-grid strong { display: block; font-size: 21px; font-weight: 400; margin: 13px 0; }
+.sim-context-grid small, .sim-audience-insights small, .sim-diagnosis-grid small { display: block; color: #999; font-size: var(--text-secondary); }
+.sim-context-grid strong { display: block; font-size: var(--text-title); font-weight: 400; margin: 13px 0; }
 .sim-context-grid svg { display: block; max-width: 220px; width: 100%; height: 43px; color: var(--matching-accent); }
-.sim-caption { color: #aaa; font-size: 10px; line-height: 1.8; }
-.sim-footnote { color: #aaa; font-size: 10px; line-height: 1.9; margin: 19px 0 0; }
-.sim-case-top { display: flex; align-items: center; gap: 15px; font-size: 10px; color: #999; margin-bottom: 18px; }
+.sim-caption { color: #aaa; font-size: var(--text-caption); line-height: 1.8; }
+.sim-footnote { color: #aaa; font-size: var(--text-caption); line-height: 1.9; margin: 19px 0 0; }
+.sim-case-top { display: flex; align-items: center; gap: 15px; font-size: var(--text-caption); color: #999; margin-bottom: 18px; }
 .sim-case-top > span:first-child { color: var(--matching-accent); }
-.sim-case-top .button { margin-left: auto; font-size: 10px; color: #999; }
+.sim-case-top .button { margin-left: auto; font-size: var(--text-caption); color: #999; }
 .sim-case-identity { display: flex; align-items: center; gap: 15px; justify-content: space-between; }
-.sim-case-identity small { color: #999; font-size: 10px; overflow-wrap: anywhere; }
-.sim-case-identity h3 { font-size: 17px; font-weight: 500; margin: 10px 0; }
+.sim-case-identity small { color: #999; font-size: var(--text-caption); overflow-wrap: anywhere; }
+.sim-case-identity h3 { font-size: var(--text-heading); font-weight: 500; margin: 10px 0; }
 .sim-case-identity img { border-radius: 50%; }
-.sim-case-platform { color: #999; font-size: 10px; margin-bottom: 23px; }
-.sim-subtitle { font-size: 12px; color: #666; font-weight: 500; padding-top: 21px; border-top: 1px solid #eee; margin: 0 0 17px; }
+.sim-case-platform { color: #999; font-size: var(--text-caption); margin-bottom: 23px; }
+.sim-subtitle { font-size: var(--text-secondary); color: #666; font-weight: 500; padding-top: 21px; border-top: 1px solid #eee; margin: 0 0 17px; }
 .sim-funnel { display: grid; gap: 9px; }
 .sim-funnel-row { position: relative; overflow: hidden; border-radius: 8px; min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 18px; border: 1px solid #f0eeec; }
 .sim-funnel-bar { position: absolute; top: 0; left: 0; bottom: 0; background: #fbf2eb; pointer-events: none; }
 .sim-funnel-row > :not(.sim-funnel-bar) { position: relative; }
-.sim-funnel-label { font-size: 12px; color: #666; }
-.sim-funnel-row small { font-size: 9px; color: #aaa; display: block; margin-top: 6px; }
-.sim-funnel-row strong { font-size: 21px; font-weight: 500; }
+.sim-funnel-label { font-size: var(--text-secondary); color: #666; }
+.sim-funnel-row small { font-size: var(--text-caption); color: #aaa; display: block; margin-top: 6px; }
+.sim-funnel-row strong { font-size: var(--text-title); font-weight: 500; }
 .sim-funnel-row > div:last-child { text-align: right; }
-.sim-deep-breakdown { display: flex; flex-wrap: wrap; gap: 14px; padding: 17px 0 0; font-size: 10px; color: #aaa; }
+.sim-deep-breakdown { display: flex; flex-wrap: wrap; gap: 14px; padding: 17px 0 0; font-size: var(--text-caption); color: #aaa; }
 .sim-deep-breakdown b { color: #777; font-weight: 500; margin-left: 5px; }
 .sim-baseline { border-top: 1px solid #eee; margin-top: 22px; padding-top: 19px; }
-.sim-baseline h4 { font-size: 12px; font-weight: 500; margin: 0 0 15px; }
+.sim-baseline h4 { font-size: var(--text-secondary); font-weight: 500; margin: 0 0 15px; }
 .sim-baseline > div { display: flex; flex-wrap: wrap; gap: 20px; }
-.sim-baseline span { color: #999; font-size: 11px; }
+.sim-baseline span { color: #999; font-size: var(--text-secondary); }
 .sim-baseline b { color: #c17b49; margin-left: 7px; font-weight: 500; }
-.sim-baseline p { font-size: 10px; line-height: 1.8; color: #aaa; margin-top: 16px; }
-.sim-case-pagination { display: flex; align-items: center; justify-content: center; gap: 20px; border-top: 1px solid #eee; padding-top: 15px; margin-top: 22px; color: #888; font-size: 11px; }
+.sim-baseline p { font-size: var(--text-caption); line-height: 1.8; color: #aaa; margin-top: 16px; }
+.sim-case-pagination { display: flex; align-items: center; justify-content: center; gap: 20px; border-top: 1px solid #eee; padding-top: 15px; margin-top: 22px; color: #888; font-size: var(--text-secondary); }
 .sim-case-indicators { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 12px; }
-.sim-case-indicators button { min-width: 23px; height: 23px; border: 1px solid #eee; border-radius: 5px; background: #fff; color: #999; font-size: 9px; }
+.sim-case-indicators button { min-width: 23px; height: 23px; border: 1px solid #eee; border-radius: 5px; background: #fff; color: #999; font-size: var(--text-caption); }
 .sim-case-indicators button[aria-pressed="true"] { border-color: var(--matching-accent); color: #bd733e; background: #fff8f2; }
 .sim-case-indicators button:disabled { color: #ccc; background: #fafafa; }
 .sim-comparison-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 17px; }
-.sim-comparison-toolbar > p { color: #999; font-size: 11px; line-height: 1.8; }
+.sim-comparison-toolbar > p { color: #999; font-size: var(--text-secondary); line-height: 1.8; }
 .sim-comparison-toolbar label { min-width: 170px; }
-.sim-comparison-toolbar select { max-width: 260px; font-size: 11px; }
+.sim-comparison-toolbar select { max-width: 260px; font-size: var(--text-secondary); }
 .sim-table-scroll { overflow-x: auto; border: 1px solid #eee; border-radius: 9px; }
-.sim-comparison-table { border-collapse: collapse; width: 100%; font-size: 11px; }
+.sim-comparison-table { border-collapse: collapse; width: 100%; font-size: var(--text-secondary); }
 .sim-comparison-table th, .sim-comparison-table td { padding: 16px 15px; text-align: left; border-bottom: 1px solid #eee; min-width: 160px; }
 .sim-comparison-table th { font-weight: 400; color: #777; background: #fafafa; overflow-wrap: anywhere; }
 .sim-comparison-table th:first-child { position: sticky; left: 0; z-index: 1; border-right: 1px solid #eee; min-width: 140px; max-width: 180px; }
-.sim-comparison-table small { display: block; color: #aaa; font-size: 10px; line-height: 1.7; margin-top: 6px; }
+.sim-comparison-table small { display: block; color: #aaa; font-size: var(--text-caption); line-height: 1.7; margin-top: 6px; }
 .sim-comparison-table td { color: #bbb; }
-.sim-comparison-table td button { padding: 7px 10px; border: 0; border-radius: 6px; background: #faf4ee; color: #af7448; font-size: 12px; white-space: nowrap; }
+.sim-comparison-table td button { padding: 7px 10px; border: 0; border-radius: 6px; background: #faf4ee; color: #af7448; font-size: var(--text-secondary); white-space: nowrap; }
 .sim-comparison-table td button.negative { background: #f5f5f5; color: #888; }
 .sim-audience-map { background: #fdfdfc; border: 1px solid #f2f2f2; border-radius: 12px; padding: 10px; }
 .sim-audience-map svg { width: 100%; max-height: 390px; display: block; }
-.network-name { fill: #705f52; font-size: 9px; }
-.network-label { fill: #999; font-size: 9px; }
-.network-overlap { fill: #b28c6e; font-size: 9px; text-anchor: middle; }
+.network-name { fill: #705f52; font-size: var(--text-caption); }
+.network-label { fill: #999; font-size: var(--text-caption); }
+.network-overlap { fill: #b28c6e; font-size: var(--text-caption); text-anchor: middle; }
 .sim-audience-insights { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
 .sim-audience-insights > div { padding: 17px; background: #fcfcfc; border: 1px solid #eee; border-radius: 9px; }
-.sim-audience-insights strong { display: block; font-size: 21px; margin-top: 10px; font-weight: 400; }
-.sim-audience-insights p { font-size: 11px; color: #999; line-height: 1.8; overflow-wrap: anywhere; }
+.sim-audience-insights strong { display: block; font-size: var(--text-title); margin-top: 10px; font-weight: 400; }
+.sim-audience-insights p { font-size: var(--text-secondary); color: #999; line-height: 1.8; overflow-wrap: anywhere; }
 .sim-diagnosis-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 20px; }
-.sim-diagnosis-grid strong { display: block; font-size: 16px; font-weight: 400; color: #a77f60; margin: 13px 0; }
-.sim-diagnosis-grid p { font-size: 11px; color: #999; line-height: 1.9; overflow-wrap: anywhere; }
+.sim-diagnosis-grid strong { display: block; font-size: var(--text-heading); font-weight: 400; color: #a77f60; margin: 13px 0; }
+.sim-diagnosis-grid p { font-size: var(--text-secondary); color: #999; line-height: 1.9; overflow-wrap: anywhere; }
 .sim-consensus { background: #fafafa; padding: 16px 18px; border-radius: 8px; margin-top: 15px; }
-.sim-consensus small { font-size: 11px; color: #777; }
-.sim-consensus p { color: #888; font-size: 12px; line-height: 1.9; margin: 10px 0 0; }
+.sim-consensus small { font-size: var(--text-secondary); color: #777; }
+.sim-consensus p { color: #888; font-size: var(--text-secondary); line-height: 1.9; margin: 10px 0 0; }
 .sim-agent-details, .sim-report-details { margin-top: 21px; border-top: 1px solid #eee; padding-top: 18px; }
-.sim-agent-details summary, .sim-report-details summary { font-size: 11px; color: #888; cursor: pointer; }
-.sim-agent-details p { display: flex; gap: 20px; font-size: 11px; color: #999; line-height: 1.8; }
+.sim-agent-details summary, .sim-report-details summary { font-size: var(--text-secondary); color: #888; cursor: pointer; }
+.sim-agent-details p { display: flex; gap: 20px; font-size: var(--text-secondary); color: #999; line-height: 1.8; }
 .sim-agent-details b { color: #777; min-width: 90px; font-weight: 500; }
 .sim-summary { display: grid; gap: 18px; }
 .sim-summary > div { padding-bottom: 17px; border-bottom: 1px solid #eee; }
 .sim-summary > div:last-child { padding-bottom: 0; border: 0; }
-.sim-summary h3 { font-size: 13px; font-weight: 500; color: #777; margin: 0 0 12px; }
-.sim-summary p { font-size: 11px; line-height: 2; color: #999; margin: 10px 0; }
+.sim-summary h3 { font-size: var(--text-body); font-weight: 500; color: #777; margin: 0 0 12px; }
+.sim-summary p { font-size: var(--text-secondary); line-height: 2; color: #999; margin: 10px 0; }
 .sim-summary button { background: none; border: 0; padding: 0; font: inherit; text-align: left; color: #b87e51; text-decoration: underline; text-underline-offset: 3px; }
 .sim-report-cover { display: flex; gap: 15px; align-items: center; }
 .sim-report-cover > span:first-child { padding: 15px; background: #faf7f3; border-radius: 12px; color: #b08c6f; display: flex; }
-.sim-report-cover h3 { font-size: 16px; font-weight: 500; margin: 0 0 10px; }
-.sim-report-cover p { font-size: 11px; color: #999; line-height: 1.8; }
-.sim-report-cover small { font-size: 10px; color: #aaa; }
-.sim-report-ready { margin-left: auto; font-size: 11px; color: #a27d5d; }
-.sim-report-details dl { font-size: 11px; color: #999; line-height: 1.9; }
+.sim-report-cover h3 { font-size: var(--text-heading); font-weight: 500; margin: 0 0 10px; }
+.sim-report-cover p { font-size: var(--text-secondary); color: #999; line-height: 1.8; }
+.sim-report-cover small { font-size: var(--text-caption); color: #aaa; }
+.sim-report-ready { margin-left: auto; font-size: var(--text-secondary); color: #a27d5d; }
+.sim-report-details dl { font-size: var(--text-secondary); color: #999; line-height: 1.9; }
 .sim-report-details dt { color: #666; margin-top: 20px; }
 .sim-report-details dd { margin: 9px 0 0; overflow-wrap: anywhere; }
 .sim-report-details b { font-weight: 500; }
 .sim-report-actions { display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; align-items: center; margin-top: 25px; }
-.sim-report-actions > span { color: #aaa; font-size: 10px; }
-.sim-report-toast { font-size: 11px; color: #ac7e56; display: flex; align-items: center; gap: 8px; line-height: 1.8; margin-top: 18px; }
-@media (max-width: 1250px) { .sim-context-grid { gap: 15px; } .sim-context-grid strong { font-size: 18px; } .sim-diagnosis-grid { grid-template-columns: 1fr; gap: 9px; } .sim-diagnosis-grid strong { margin: 8px 0; } }
-@media (max-width: 850px) { .simulation-module { padding: 18px; } .sim-module-heading { flex-wrap: wrap; } .sim-module-heading h2 { font-size: 14px; } .sim-context-grid { grid-template-columns: 1fr; } .sim-context-grid svg { max-width: none; } .sim-comparison-toolbar { flex-wrap: wrap; } .sim-audience-insights { grid-template-columns: 1fr; } .sim-funnel-row strong { font-size: 17px; } }
-@media (max-width: 580px) { .simulation-nav .brief-nav-list { display: grid; overflow: visible; } .simulation-nav .brief-nav-item:not(.active) .simulation-case-list { display: none; } .simulation-module { scroll-margin-top: 130px; } .simulation-module-nav { grid-template-columns: 1fr; } .sim-run-status { flex-wrap: wrap; } .sim-case-top { flex-wrap: wrap; } .sim-report-ready { display: none; } .sim-report-cover h3 { font-size: 14px; } .sim-report-actions .button { width: 100%; } }
+.sim-report-actions > span { color: #aaa; font-size: var(--text-caption); }
+.sim-report-toast { font-size: var(--text-secondary); color: #ac7e56; display: flex; align-items: center; gap: 8px; line-height: 1.8; margin-top: 18px; }
+@media (max-width: 1250px) { .sim-context-grid { gap: 15px; } .sim-context-grid strong { font-size: var(--text-heading); } .sim-diagnosis-grid { grid-template-columns: 1fr; gap: 9px; } .sim-diagnosis-grid strong { margin: 8px 0; } }
+@media (max-width: 850px) { .simulation-module { padding: 18px; } .sim-module-heading { flex-wrap: wrap; } .sim-module-heading h2 { font-size: var(--text-body); } .sim-context-grid { grid-template-columns: 1fr; } .sim-context-grid svg { max-width: none; } .sim-comparison-toolbar { flex-wrap: wrap; } .sim-audience-insights { grid-template-columns: 1fr; } .sim-funnel-row strong { font-size: var(--text-heading); } }
+@media (max-width: 580px) { .simulation-nav .brief-nav-list { display: grid; overflow: visible; } .simulation-nav .brief-nav-item:not(.active) .simulation-case-list { display: none; } .simulation-module { scroll-margin-top: 130px; } .simulation-module-nav { grid-template-columns: 1fr; } .sim-run-status { flex-wrap: wrap; } .sim-case-top { flex-wrap: wrap; } .sim-report-ready { display: none; } .sim-report-cover h3 { font-size: var(--text-body); } .sim-report-actions .button { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .sim-live-dot, .sim-skeleton > span { animation: none; } }

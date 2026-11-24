@@ -1,3 +1,4 @@
+import './typography.css';
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Button, Icon } from './components.jsx';

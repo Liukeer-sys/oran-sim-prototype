@@ -1,5 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { individualPerformance } from '../src/simulationModel.js';
+import { creatorAnalytics } from '../src/creatorAnalytics.js';
 import { projects, importProject } from '../src/model.js';
 import { prepareMatching, recommendCreators, mergeRecommendations, toggleSelection } from '../src/creatorModel.js';
 import { buildSimulation, createSimulationState, advanceSimulation, moduleStatus, caseStatus, simulationModules, simulationKey } from '../src/simulationModel.js';
@@ -34,6 +36,27 @@ test('simulation creates only selected pairs and consistent interval funnels', (
   assert.equal(model.bestByBrief.length, campaign.briefs.length);
   assert.equal(model.topReach.reach.mid, Math.max(...model.cases.map(c => c.reach.mid)));
   assert.deepEqual(buildSimulation(campaign, matching), model);
+});
+
+test('individual funnel uses total-play samples, excludes profile visits and keeps unsupported rates unavailable', () => {
+  const { campaign, matching } = fixture();
+  for (const c of buildSimulation(campaign, matching).cases) {
+    const brief = campaign.briefs.find(b => b.id === c.briefId);
+    const before = JSON.stringify(c);
+    const p = individualPerformance(c, campaign, brief);
+    const history = creatorAnalytics(c.creator, campaign, brief);
+    assert.equal(p.baseline.views, history.views.median);
+    assert.equal(p.views.mid, Math.round(history.views.median * (1 + c.baseline.reachLift / 100)));
+    const total = Object.values(p.interactions).reduce((a, b) => a + b, 0);
+    assert.equal(total, c.engagements.mid - Object.fromEntries(c.deepParts)['Profile visits']);
+    assert.equal(p.engagementRate, +(total / p.views.mid * 100).toFixed(2));
+    assert.equal(p.viewRate, null);
+    assert.equal(p.baseline.viewRateDelta, null);
+    assert.equal(p.baseline.engagementDelta, null);
+    assert.equal(p.seconds, 6);
+    assert.equal(individualPerformance({ ...c, creator: { ...c.creator, platform: 'Unconfigured' } }, campaign, brief).seconds, null);
+    assert.equal(JSON.stringify(c), before);
+  }
 });
 
 test('modules appear sequentially and comparison waits for every case', () => {

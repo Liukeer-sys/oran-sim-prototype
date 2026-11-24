@@ -1,0 +1,28 @@
+.individual-natural-performance h4 { margin: 0; font-size: var(--text-body); font-weight: 500; }
+.natural-three-stages { display: grid; gap: 10px; }
+.natural-stage { --stage-fill: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 80px; box-sizing: border-box; padding: 14px 20px; border: 1px solid #f0e9e3; border-radius: 10px; background: linear-gradient(to right, #fcf3eb var(--stage-fill), #fff var(--stage-fill)); }
+.natural-stage.natural-quality { --stage-fill: 86%; }
+.natural-stage.natural-engagement { --stage-fill: 72%; }
+.natural-stage-copy { min-width: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 24px; }
+.natural-stage h5 { margin: 0; flex-shrink: 0; font-size: var(--text-body); font-weight: 400; color: #6d655f; }
+.natural-stage small { display: block; color: #a19b96; font-size: var(--text-caption); line-height: 1.5; }
+.natural-stage-copy > small { font-size: var(--text-secondary); }
+.natural-stage-value { flex-shrink: 0; text-align: right; }
+.natural-stage-value > strong { display: block; font-size: var(--text-title); font-weight: 500; line-height: 1.2; color: #252525; }
+.natural-stage-value > small { margin-top: 6px; }
+.natural-interactions { display: flex; flex-wrap: wrap; gap: 6px 16px; color: #a19b96; font-size: var(--text-secondary); }
+.natural-interactions > span { white-space: nowrap; }
+.natural-interactions b { color: #7c7269; font-size: var(--text-body); font-weight: 600; margin-left: 4px; }
+.individual-natural-performance .natural-unavailable { font-size: var(--text-secondary); font-weight: 400; color: #999; }
+.natural-baseline { border-top: 1px solid #eee; margin-top: 18px; padding-top: 16px; }
+.natural-baseline-metrics { display: flex; flex-wrap: wrap; gap: 12px 26px; margin-top: 14px; }
+.natural-baseline-metrics > div { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.natural-baseline-metrics span { font-size: var(--text-secondary); color: #999; }
+.natural-baseline-metrics strong { color: #c17b49; font-size: var(--text-secondary); font-weight: 500; }
+.natural-baseline p { margin: 12px 0 0; font-size: var(--text-caption); color: #aaa; line-height: 1.6; }
+@media (max-width: 580px) {
+  .natural-stage { padding: 12px; gap: 12px; }
+  .natural-stage-value > strong { font-size: var(--text-heading); }
+  .natural-interactions { gap: 5px 10px; }
+  .natural-stage-value { flex-shrink: 1; }
+}

@@ -1,6 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 
 const paths = {
+  target: 'M20 10a8 8 0 1 1-6-6 M16 12a4 4 0 1 1-4-4 M12 12l8-8 M17 2v5h5',
+  clipboard: 'M9 4H5v17h14V4h-4 M9 2h6v4H9z M8 11h8 M8 16h8',
+  sliders: 'M3 6h3 m4 0h11 M3 18h11 m4 0h3 M6 3h4v6H6z M14 15h4v6h-4z',
+  info: 'M21 12a9 9 0 1 0-18 0 9 9 0 0 0 18 0 M12 11v6 M12 7h.01',
+  music: 'M14 3v12a4 4 0 1 1-4-4 M14 3c0 5 4 6 7 6V5c-4 0-5-2-7-2',
+  heart: 'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z',
+  bookmark: 'M6 3h12v18l-6-4-6 4z',
+  comment: 'M21 11a9 8 0 0 1-9 8H7l-5 3 2-6a8 8 0 0 1-1-5 9 8 0 0 1 18 0z',
+  play: 'm8 5 11 7-11 7z',
   grid: 'M3 3h6v6H3z M15 3h6v6h-6z M3 15h6v6H3z M15 15h6v6h-6z',
   hub: 'm3 17 6-6 4 4 8-10 M15 5h6v6',
   spark: 'm12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3 M20 2v4 M18 4h4',

@@ -1,0 +1,46 @@
+.result-brief.brief-setup-card.brief-horizontal-card { position: relative; padding: 18px 20px 18px 126px; border: 1px solid #f4e7dc; border-radius: 15px; background: linear-gradient(110deg, #fffaf6 0%, #fff 65%); box-shadow: 0 3px 10px #39210b08; }
+.brief-horizontal-card .brief-heading { position: static; margin: 0; }
+.brief-horizontal-card .brief-number-badge { position: absolute; left: 16px; top: 18px; padding: 9px 12px; border-radius: 9px; background: #fff0e5; color: #e47734; font-size: var(--text-body); }
+.brief-horizontal-card .brief-heading-actions { position: absolute; top: 15px; right: 18px; gap: 12px; }
+.brief-horizontal-card .brief-heading-actions .text-button { font-size: 0; gap: 0; padding: 6px; }
+.brief-horizontal-card .brief-heading-actions .text-button svg { width: 16px; height: 16px; }
+.brief-horizontal-card .brief-card-fields { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.brief-horizontal-card .brief-card-fields[hidden] { display: none; }
+.brief-horizontal-card .brief-field-section { padding: 0; border-radius: 0; background: transparent; box-shadow: none; min-width: 0; gap: 8px; }
+.brief-horizontal-card .brief-field-section.optional-section { padding-left: 26px; border-left: 1px solid #ececec; align-self: stretch; align-content: start; }
+.brief-horizontal-card .brief-section-heading { justify-content: flex-start; flex-wrap: wrap; gap: 8px; min-height: 24px; margin: 0 0 6px; }
+.brief-horizontal-card .optional-section .brief-section-heading { padding-right: 70px; }
+.brief-horizontal-card .brief-section-heading > svg { color: #8a8f90; flex-shrink: 0; }
+.brief-horizontal-card .brief-section-heading h4 { color: #222; font-weight: 600; font-size: var(--text-body); }
+.brief-horizontal-card .brief-section-heading .section-badge { font-size: var(--text-secondary); padding: 2px 8px; }
+.brief-horizontal-card .brief-section-heading .required-badge { color: #dd702e; background: #ffeadb; }
+.brief-horizontal-card .brief-card-fields .field-label { font-size: var(--text-body); color: #555; font-weight: 500; }
+.brief-horizontal-card .brief-card-fields input,
+.brief-horizontal-card .brief-card-fields select,
+.brief-horizontal-card .brief-card-fields textarea { background: #fff; border: 1px solid #e8e8e8; border-radius: 9px; font-size: var(--text-secondary); padding: 8px 11px; }
+.brief-horizontal-card .brief-card-fields input,
+.brief-horizontal-card .brief-card-fields select { height: 36px; }
+.brief-horizontal-card .brief-card-fields select { padding-right: 28px; }
+.brief-horizontal-card .brief-card-fields textarea { height: 40px; min-height: 40px; line-height: 1.5; }
+.brief-horizontal-card .brief-card-options { gap: 24px; margin-top: 6px; }
+.brief-horizontal-card .brief-audience-hint { display: flex; align-items: flex-start; gap: 7px; margin-top: 14px; font-size: var(--text-secondary); color: #92979b; }
+.brief-horizontal-card .brief-audience-hint svg { flex-shrink: 0; margin-top: 2px; }
+.brief-horizontal-card .brief-audience-editor { margin-top: 8px; }
+.brief-horizontal-card .brief-audience-editor .field-label { font-size: var(--text-secondary); font-weight: 400; }
+.brief-horizontal-card.is-collapsed { min-height: 72px; padding-right: 100px; }
+.brief-horizontal-card .brief-collapsed-title { padding-top: 9px; }
+@media (max-width: 1200px) {
+  .brief-horizontal-card .brief-card-fields { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; }
+  .brief-horizontal-card .brief-field-section.optional-section { padding-left: 16px; }
+  .brief-horizontal-card .brief-card-options { gap: 10px; }
+}
+@media (max-width: 1000px) {
+  .result-brief.brief-setup-card.brief-horizontal-card { padding: 66px 18px 18px; }
+  .brief-horizontal-card .brief-card-fields { grid-template-columns: 1fr; }
+  .brief-horizontal-card .brief-field-section.optional-section { border-left: 0; border-top: 1px solid #eee; padding: 14px 0 0; }
+  .brief-horizontal-card .optional-section .brief-section-heading { padding-right: 0; }
+  .brief-horizontal-card.is-collapsed { padding-top: 56px; }
+}
+@media (max-width: 580px) {
+  .brief-horizontal-card .brief-card-options { grid-template-columns: 1fr; }
+}

@@ -1,12 +1,13 @@
+import { effectiveBriefAudience } from './model.js';
 const profiles = [
   ['OutdoorMia', 328000, 'KOL', 'Mid-tier', ['Outdoor', 'Camping', 'Lifestyle'], 4.8],
-  ['TechWithLeo', 1250000, 'KOL', 'Head', ['Tech', 'Outdoor'], 3.6],
-  ['WeekendWithJune', 18600, 'KOC', 'Long-tail', ['Camping', 'Lifestyle'], 6.2],
+  ['TechWithLeo', 1250000, 'KOL', 'Mega', ['Tech', 'Outdoor'], 3.6],
+  ['WeekendWithJune', 18600, 'KOC', 'Micro', ['Camping', 'Lifestyle'], 6.2],
   ['HomeByLuna', 216000, 'KOL', 'Mid-tier', ['Home', 'Lifestyle'], 5.1],
-  ['EverydayWithAmy', 14200, 'KOC', 'Long-tail', ['Parenting', 'Lifestyle'], 7.1],
-  ['FamilyWithEmma', 1080000, 'KOL', 'Head', ['Parenting', 'Wellness'], 3.9],
-  ['SimpleDaysKai', 62000, 'KOC', 'Mid-tier', ['Home', 'Lifestyle', 'Wellness'], 5.6],
-  ['TinyTrailNotes', 42000, 'KOL', 'Long-tail', ['Outdoor', 'Camping', 'Tech'], 5.3],
+  ['EverydayWithAmy', 8200, 'KOC', 'Nano', ['Beauty', 'Parenting', 'Lifestyle'], 7.1],
+  ['FamilyWithEmma', 780000, 'KOL', 'Macro', ['Parenting', 'Wellness'], 3.9],
+  ['SimpleDaysKai', 162000, 'KOC', 'Mid-tier', ['Sports', 'Lifestyle', 'Wellness'], 5.6],
+  ['TinyTrailNotes', 42000, 'KOS', 'Micro', ['Outdoor', 'Camping', 'Tech'], 5.3],
 ];
 export const creatorId = (platform, username) => `${platform}:${username.replace(/^@/, '').toLowerCase()}`;
 export function avatarFor(name) {
@@ -21,6 +22,8 @@ export function profileUrlFor(platform, username) {
 }
 function inferVerticals(brief, campaign) {
   const text = `${brief.title} ${brief.description} ${campaign.product}`;
+  if (/美妆|护肤|beauty/i.test(text)) return ['Beauty', 'Lifestyle'];
+  if (/运动|健身|sport/i.test(text)) return ['Sports', 'Wellness', 'Lifestyle'];
   if (/露营|户外|储能|camp|outdoor/i.test(text)) return ['Outdoor', 'Camping', 'Tech'];
   if (/儿童|亲子|家长|宝宝|维生素|pentavite/i.test(text)) return ['Parenting', 'Wellness', 'Lifestyle'];
   if (/家居|床|卧室|新家|home/i.test(text)) return ['Home', 'Lifestyle'];
@@ -34,10 +37,10 @@ export function recommendCreators(campaign, brief) {
     const username = `@oran_demo_${name.toLowerCase()}`;
     const match = Math.min(98, 73 + tags.filter(t => verticals.includes(t)).length * 7 + (salt + index) % 5);
     return { id: creatorId(platform, username), platform, username, displayName: name, avatar: avatarFor(name), profileUrl: profileUrlFor(platform, username), followers, creatorType, tier, verticals: tags, engagementRate, briefMatch: match, source: 'ai',
-      reason: `示例账号侧重 ${tags.join(' / ')} 内容，可围绕「${brief.title}」呈现 ${campaign.product} 的使用场景。已将 ${campaign.market} 市场及 ${platform} 内容形式纳入模拟匹配。` };
+      reason: `侧重 ${tags.join(' / ')} 内容，适合围绕「${brief.title}」展示 ${campaign.product} 的使用场景。` };
   })).sort((a, b) => b.briefMatch - a.briefMatch);
 }
-const contextFor = (campaign, brief) => JSON.stringify([campaign.platform, campaign.market, campaign.product, campaign.background, brief.title, brief.description]);
+const contextFor = (campaign, brief) => JSON.stringify([campaign.platform, campaign.market, campaign.product, campaign.background, campaign.brandName, campaign.productCategory, campaign.audience, campaign.performanceFocus, campaign.timing, brief.title, brief.description, brief.contentFormat, effectiveBriefAudience(campaign, brief)]);
 export function prepareMatching(campaign, previous = {}) {
   return Object.fromEntries(campaign.briefs.map(brief => {
     const context = contextFor(campaign, brief);
@@ -90,5 +93,5 @@ export function parseManualCreator({ url, username, activePlatform, campaign, br
   }
   if (!campaign.platform.includes(platform)) return { error: '账号平台不在当前 Campaign 内。' };
   if (!/^[\p{L}\p{N}_.-]{1,80}$/u.test(account)) return { error: '账号仅支持文字、数字、下划线、短横线和点，最多 80 个字符。' };
-  return { creator: { id: creatorId(platform, account), platform, username: `@${account}`, displayName: account, avatar: avatarFor(account), profileUrl: profileUrl || profileUrlFor(platform, account), followers: 28600, creatorType: 'KOC', tier: 'Long-tail', verticals: inferVerticals(brief, campaign).slice(0, 2), engagementRate: 5.2, briefMatch: 86, source: 'manual', reason: `手动添加的示例账号。根据「${brief.title}」生成模拟标签与匹配度；未联网验证主页或账号指标。` } };
+  return { creator: { id: creatorId(platform, account), platform, username: `@${account}`, displayName: account, avatar: avatarFor(account), profileUrl: profileUrl || profileUrlFor(platform, account), followers: 28600, creatorType: 'KOC', tier: 'Micro', verticals: inferVerticals(brief, campaign).slice(0, 2), engagementRate: 5.2, briefMatch: 86, source: 'manual', reason: `模拟内容领域为 ${inferVerticals(brief, campaign).slice(0, 2).join(' / ')}，可承接「${brief.title}」的场景表达。手动账号尚未验证。` } };
 }

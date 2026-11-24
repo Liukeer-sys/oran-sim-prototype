@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { Button, Icon, Select } from './components.jsx';
 import { advanceSimulation, buildSimulation, caseStatus, compact, createSimulationState, moduleStatus, rangeText, signed, simulationModules } from './simulationModel.js';
 import './simulationWorkspace.css';
+import NaturalPerformanceFunnel from './NaturalPerformanceFunnel.jsx';
 
 function SimulationProgress({ campaign, model, progress, currentCase, runningCaseId, onCase, onBrief, onModule, activeModule }) {
   const navRef = useRef(null);
@@ -44,7 +45,7 @@ function SimulationContext({ campaign, context }) {
     <div className="sim-context-grid"><div><small>品类内容热度</small><strong>{context.heat}</strong><svg viewBox="0 0 220 48" role="img" aria-label="品类热度模拟趋势：近十二周总体上升"><polyline points={context.trend.map((v, i) => `${i * 20},${48 - v * .55}`).join(' ')} fill="none" stroke="currentColor" strokeWidth="2"/></svg><span className="sim-caption">近 12 周 · 示例趋势</span></div><div><small>自然互动基线</small><strong>{context.baseline}</strong><span className="sim-caption">同类内容互动 / 有效观看</span></div><div><small>内容竞争程度</small><strong>{context.competition}</strong><span className="sim-caption">真实场景与明确内容主题更易区分</span></div></div><p className="sim-footnote">平台趋势示例：生活场景、体验对比与实用分享。以上为本次模拟假设，非实时市场数据。</p></>;
 }
 
-function NaturalPerformance({ currentCase: c, cases, model, progress, onCase, filteredBrief, onClearFilter }) {
+function NaturalPerformance({ campaign, currentCase: c, cases, model, progress, onCase, filteredBrief, onClearFilter }) {
   const touch = useRef(null);
   const available = cases.filter(item => caseStatus(progress, item.id) !== 'not-started');
   const localIndex = available.findIndex(item => item.id === c.id);
@@ -55,9 +56,7 @@ function NaturalPerformance({ currentCase: c, cases, model, progress, onCase, fi
     <div className="sim-case-top"><span>Case {String(model.cases.findIndex(item => item.id === c.id) + 1).padStart(2, '0')} / {model.cases.length}</span><span>{completedCount} / {model.cases.length} 已生成</span>{filteredBrief && <Button variant="text-button" onClick={onClearFilter}>显示全部 Brief</Button>}</div>
     <div className="sim-case-identity"><div><small>Brief {String(c.briefIndex + 1).padStart(2, '0')} × {c.creator.username}</small><h3>{c.briefTitle}</h3></div><img src={c.creator.avatar} alt={c.creator.username} width="38" height="38"/></div><div className="sim-case-platform">{c.creator.platform} · {compact(c.creator.followers)} followers</div>
     {!complete ? <div className="sim-skeleton" role="status"><p>{caseStatus(progress, c.id) === 'generating' ? '正在生成当前组合的自然表现预测…' : '该组合尚未开始，完成后可查看区间预测。'}</p><span/><span/><span/></div> : <>
-      <h4 className="sim-subtitle">Natural Performance Funnel</h4><div className="sim-funnel">{[['Estimated Reach', '预计触达', c.reach], ['Effective Views', '有效观看', c.views], ['Engagement', '互动', c.engagements], ['Deep Engagement', '深度互动', c.deep]].map(([name, label, value], i) => <div className="sim-funnel-row" key={name}><div className="sim-funnel-bar" style={{ width: `${100 - i * 14}%` }}/><span className="sim-funnel-label">{label}<small>{name}</small></span><div><strong>{rangeText(value)}</strong><small>中位示意 {compact(value.mid)}</small></div></div>)}</div>
-      <div className="sim-deep-breakdown">{c.deepParts.map(([name, value]) => <span key={name}>{name} <b>{compact(value)}</b></span>)}</div><p className="sim-footnote">拆分值为区间中位示意，非精确预测。互动包含点赞与深度互动；所有数值均为 mock。</p>
-      <div className="sim-baseline"><h4>vs Creator Baseline</h4><div><span>Reach <b>{signed(c.baseline.reachLift)}</b></span><span>Engagement Rate <b>{signed(c.baseline.engagementDelta, 'pp')}</b></span><span>Share Rate <b>{signed(c.baseline.shareLift)}</b></span></div><p>基于该达人近期同类内容的模拟基线。仅分析自然传播，不包含付费投流或销售 ROI。</p></div>
+      <NaturalPerformanceFunnel currentCase={c} campaign={campaign}/>
     </>}
     <div className="sim-case-pagination"><Button variant="icon-button" aria-label="上一个 Case" disabled={available.length < 2} onClick={() => move(-1)}><Icon name="back" size={16}/></Button><span>{Math.max(0, cases.findIndex(item => item.id === c.id)) + 1} / {cases.length}{filteredBrief ? ' · 当前 Brief' : ''}</span><Button variant="icon-button" aria-label="下一个 Case" disabled={available.length < 2} onClick={() => move(1)}><Icon name="arrow" size={16}/></Button></div><div className="sim-case-indicators">{cases.map((item, i) => <button key={item.id} aria-label={`查看 Case ${model.cases.findIndex(v => v.id === item.id) + 1}`} aria-pressed={c.id === item.id} disabled={caseStatus(progress, item.id) === 'not-started'} onClick={() => onCase(item.id)} title={`${item.briefTitle} × ${item.creator.username}`}>{i + 1}</button>)}</div>
   </div>;
@@ -155,7 +154,7 @@ export default function SimulationWorkspace({ campaign, matching, enabled }) {
         {simulationModules.filter(m => moduleStatus(progress, m.id) !== 'not-started').map(module => {
           const status = moduleStatus(progress, module.id);
           let content = null;
-          if (module.id === 'performance') content = <NaturalPerformance currentCase={currentCase} cases={filteredCases} model={model} progress={progress} onCase={chooseCase} filteredBrief={filter} onClearFilter={() => setFilter(null)}/>;
+          if (module.id === 'performance') content = <NaturalPerformance campaign={campaign} currentCase={currentCase} cases={filteredCases} model={model} progress={progress} onCase={chooseCase} filteredBrief={filter} onClearFilter={() => setFilter(null)}/>;
           else if (status === 'completed') {
             if (module.id === 'context') content = <SimulationContext campaign={campaign} context={model.context}/>;
             if (module.id === 'comparison') content = <CombinationComparison campaign={campaign} model={model} onCase={id => chooseCase(id, true)}/>;

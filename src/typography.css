@@ -1,0 +1,16 @@
+/* Shared type scale: use these tokens instead of one-off font sizes. */
+:root {
+  --text-caption: 10px;
+  --text-secondary: 12px;
+  --text-body: 14px;
+  --text-heading: 18px;
+  --text-title: 24px;
+  --text-display-small: 32px;
+  --text-display: 38px;
+  font-size: var(--text-body);
+}
+h1 { font-size: var(--text-display); }
+h2 { font-size: var(--text-title); }
+h3, h4 { font-size: var(--text-heading); }
+h5, h6 { font-size: var(--text-body); }
+small { font-size: var(--text-caption); }

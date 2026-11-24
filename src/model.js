@@ -1,7 +1,21 @@
-export const emptyBrief = () => ({ id: crypto.randomUUID(), title: '', description: '' });
+export const emptyBrief = () => ({ id: crypto.randomUUID(), title: '', description: '', contentFormat: '', audienceMode: 'campaign', customAudience: null });
+export const contentFormats = ['Review', 'Storytelling', 'Tutorial', 'Vlog', 'Challenge', 'Talking-head', 'Other'];
+export const cloneAudience = audience => JSON.parse(JSON.stringify({ ...emptySettings().audience, ...audience }));
+export const effectiveBriefAudience = (campaign, brief) => brief.audienceMode === 'custom' && brief.customAudience ? brief.customAudience : campaign.audience || emptySettings().audience;
+export function changeBriefAudienceMode(brief, mode, campaignAudience) {
+  return { ...brief, audienceMode: mode, customAudience: mode === 'custom' && !brief.customAudience ? cloneAudience(campaignAudience) : brief.customAudience };
+}
 export const platformOptions = ['TikTok', 'Instagram', 'YouTube', '小红书', '抖音'];
-export const emptySetup = () => ({ platform: [], market: '', product: '', background: '', briefs: [emptyBrief()] });
-export const isComplete = (data) => Boolean(data.platform.length && data.market && data.product.trim() && data.background.trim() && data.briefs.length && data.briefs.every(b => b.title.trim() && b.description.trim()));
+export const emptySettings = () => ({ audience: { age: [], gender: [], region: '', interests: '', description: '' }, performanceFocus: 'Overall Performance', timing: { mode: 'current', start: '', durationDays: 14 } });
+export const emptySetup = () => ({ ...emptySettings(), brandName: '', productCategory: '', platform: [], market: '', product: '', background: '', briefs: [emptyBrief()] });
+export const missingBasics = data => ['brandName', 'product', 'productCategory', 'market'].filter(key => !data[key]?.trim()).length + Number(data.platform.length !== 1);
+export function timingError(timing) {
+  if (!timing || timing.mode === 'current') return '';
+  if (timing.mode !== 'date') return '请选择立即开始或指定开始日期。';
+  if (!timing.start) return '请填写开始日期。';
+  return '';
+}
+export const isComplete = data => Boolean(!missingBasics(data) && platformOptions.includes(data.platform[0]) && !timingError(data.timing) && data.briefs.length && data.briefs.every(b => b.title.trim() && b.description.trim()));
 export function fileError(file) {
   if (!/\.(pdf|docx|txt)$/i.test(file.name)) return '请选择 PDF、DOCX 或 TXT 格式的文件。';
   if (file.size === 0) return '文件为空，请重新选择。';
@@ -25,16 +39,23 @@ export const projects = [
     ['让卧室成为最想回来的地方', '通过卧室改造前后对比，展示床品如何改变空间氛围，分享配色与日常打理心得。']
   ] }
 ];
-export const importProject = (p) => ({ platform: Array.isArray(p.platform) ? [...p.platform] : [p.platform], market: p.market, product: p.product, background: p.background, briefs: p.briefs.map(([title, description]) => ({ id: crypto.randomUUID(), title, description })) });
+const projectBasics = {
+  pentavite: { brandName: 'Pentavite', product: '儿童复合维生素', productCategory: '营养健康' },
+  bluetti: { brandName: 'BLUETTI', product: '便携式储能电源', productCategory: '户外储能' },
+  home: { brandName: '云眠', product: '全棉家居床品', productCategory: '家居床品' },
+};
+export const importProject = p => ({ ...emptySetup(), ...projectBasics[p.id], platform: (Array.isArray(p.platform) ? p.platform : [p.platform]).slice(0, 1), market: p.market, background: p.background, briefs: p.briefs.map(([title, description]) => ({ ...emptyBrief(), title, description })) });
 
 // Deterministic prototype parsing: preserve the user's text, leave unknown facts empty.
 export function parseDescription(text) {
-  const platform = platformOptions.filter(p => text.toLowerCase().includes(p.toLowerCase()));
+  const platform = platformOptions.filter(p => text.toLowerCase().includes(p.toLowerCase())).sort((a, b) => text.toLowerCase().indexOf(a.toLowerCase()) - text.toLowerCase().indexOf(b.toLowerCase())).slice(0, 1);
   const markets = [['US', /美国|\bUS\b/i], ['CN', /中国|\bCN\b/i], ['UK', /英国|\bUK\b/i], ['AU', /澳大利亚|澳洲|\bAU\b/i], ['SG', /新加坡|\bSG\b/i]];
   const market = markets.find(([, pattern]) => pattern.test(text))?.[0] || '';
-  const product = text.match(/(?:品牌|产品|brand|product)\s*[:：]\s*([^\n，。,;；]+)/i)?.[1]?.trim()
-    || ['Pentavite', 'Bluetti', '云眠'].find(p => text.toLowerCase().includes(p.toLowerCase())) || '';
-  return { platform, market, product, background: text.trim(), briefs: [
+  const known = Object.values(projectBasics).find(p => text.toLowerCase().includes(p.brandName.toLowerCase()));
+  const brandName = text.match(/(?:品牌|brand)\s*[:：]\s*([^\n，。,;；]+)/i)?.[1]?.trim() || known?.brandName || '';
+  const product = text.match(/(?:产品|product)\s*[:：]\s*([^\n，。,;；]+)/i)?.[1]?.trim() || known?.product || '';
+  const productCategory = text.match(/(?:品类|类别|category)\s*[:：]\s*([^\n，。,;；]+)/i)?.[1]?.trim() || known?.productCategory || '';
+  return { ...emptySettings(), brandName, productCategory, platform, market, product, background: text.trim(), briefs: [
     { ...emptyBrief(), title: '从真实生活场景切入', description: `围绕${product || '本次营销内容'}，用目标用户的日常场景呈现需求与使用体验。此内容方向为模拟建议，请结合原方案确认。` },
     { ...emptyBrief(), title: '分享选择与体验心得', description: `围绕原方案中的核心信息，制作选择过程或体验分享，邀请观众交流。此内容方向为模拟建议，请按实际产品调整。` }
   ] };

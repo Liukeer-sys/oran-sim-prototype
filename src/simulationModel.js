@@ -1,3 +1,20 @@
+import { creatorAnalytics } from './creatorAnalytics.js';
+
+// Prototype configuration, not a claim about a platform's reporting standard.
+export const viewingQualityConfig = { TikTok: { seconds: 6 } };
+export function individualPerformance(c, campaign, brief) {
+  const history = creatorAnalytics(c.creator, campaign, brief);
+  const baselineViews = history.views.median;
+  // Independent total-play mock derived from the existing comparable-video sample.
+  // Legacy c.views remains effective views for existing campaign analyses.
+  const views = range(baselineViews * (1 + c.baseline.reachLift / 100));
+  const counts = Object.fromEntries(c.deepParts);
+  const interactions = { Likes: c.engagements.mid - c.deep.mid, Comments: counts.Comments, Shares: counts.Shares, Saves: counts.Saves };
+  const total = Object.values(interactions).reduce((sum, value) => sum + value, 0);
+  return { views, interactions, engagementRate: +(total / views.mid * 100).toFixed(2), seconds: viewingQualityConfig[c.creator.platform]?.seconds ?? null,
+    viewRate: null, baseline: { views: baselineViews, viewsLift: +((views.mid / baselineViews - 1) * 100).toFixed(1), viewRateDelta: null, engagementDelta: null } };
+}
+
 export const simulationModules = [
   { id: 'context', title: 'Simulation Context' },
   { id: 'performance', title: 'Natural Performance' },
